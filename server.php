@@ -33,3 +33,6 @@ $pory_dnia = array(
     PORA_OBIAD => "Obiad",
     PORA_KAPIEL => "Kąpiel",
 );
+
+
+/* dupa jasia */
