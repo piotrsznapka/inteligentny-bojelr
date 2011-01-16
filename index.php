@@ -1,4 +1,8 @@
+<?php ob_start() ?>
+
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,7 +14,7 @@
               <strong>"Inteligenty bojler"</strong></font><br><br></p>
 
      
-       <form action="http://localhost/~piotr/sterownik_cwu/index.php" method="POST">
+       <form action="index.php" method="POST">
        <table border="0"  width="60%">
   <tr>
     <td colspan="2"><center> <img src="schemat_cwu.jpg" width="25%" hight="25%"/><br><br></center></td>
@@ -29,6 +33,9 @@
        </form>
 
        <?php
+       //error_reporting(E_ALL ^ E_WARNING);
+       ob_start();
+
        if (isset($_POST["haslo"])) {   //sprawdzenie czy zmianna hasło przeslana formularzem nie jest pusta
            $plik = file(dirname(__FILE__) . "/pass.txt");   //otwarcie pliku z hasłem
            $plik = array_map("trim", $plik);    //zwraca tablice przypisujac linie tekstu pod kolejne wiersze tablicy
@@ -45,15 +52,17 @@
                     header('Location: admin.php');    //przekierowanie strony do admin.php
            } elseif (($_POST['poziom'] == 'Użytkownik') &&  ($md5_haslo == $haslo_user)){  //sprawdzanie hasła dla użytkowanika
                 setcookie("zalogowany", "user");    //ustawienie ciasteczek
-                header('Location: http://localhost/~piotr/sterownik_cwu/user.php'); //przekierowanie do strony uzytkownika
+                header('Location: user.php'); //przekierowanie do strony uzytkownika
            } else {
                if(!empty($_POST['haslo']))
                echo 'błędne hasło<br>proszę spróbować jeszcze raz';
                else echo 'proszę podać hasło';
            }
        }
+       
 ?>
 
        </center>
     </body>
 </html>
+<?php ob_end_flush() ?>

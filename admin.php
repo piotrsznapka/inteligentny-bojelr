@@ -1,8 +1,15 @@
 <?php include_once ("server.php") ?>
 <?php include_once ("odczyt.php") ?>
-<?php $odczytane_wartosci = odczytajDaneZPlytki() ?>
+<?php include_once ("dane.php") ?>
+<?php $odczytane_wartosci = odczytajDaneZPlytki($dane) ?>
+<?php 
+$komenda="uart2.exe";
+$result = array(); 
+system($komenda, $result);
+?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>//komentarz 
+<html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title></title>
@@ -53,12 +60,24 @@
              <td>do
                 <select name="dane[<?php echo $kluczPora ?>][godzina_do]">
                     <?php foreach ($godziny as $godzina): ?>
-                        <option value="<?php echo $godzina ?>"><?php echo $godzina ?></option>
+                        <option value="<?php echo $godzina ?>"
+                            <?php foreach ($odczytane_wartosci as $poraZPlytki => $wartosciZPlytki): ?>
+                                <?php if ($poraZPlytki == $kluczPora && $wartosciZPlytki[3] == $godzina): ?>
+                                   selected="selected"
+                                <?php endif ?>
+                            <?php endforeach ?>
+                        ><?php echo $godzina ?></option>
                     <?php endforeach ?>
                 </select>&nbsp;:&nbsp;
                 <select name="dane[<?php echo $kluczPora ?>][minuta_do]">
                     <?php foreach ($minuty as $minuta): ?>
-                        <option value="<?php echo $minuta ?>"><?php echo $minuta ?></option>
+                        <option value="<?php echo $minuta ?>"
+                            <?php foreach ($odczytane_wartosci as $poraZPlytki => $wartosciZPlytki): ?>
+                                <?php if ($poraZPlytki == $kluczPora && $wartosciZPlytki[4] == $minuta): ?>
+                                    selected="selected"
+                                <?php endif ?>
+                            <?php endforeach ?>
+                        ><?php echo $minuta ?></option>
                     <?php endforeach ?>
                 </select>
              </td>
