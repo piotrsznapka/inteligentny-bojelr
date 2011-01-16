@@ -1,7 +1,7 @@
 <?php include_once ("server.php") ?>
 <?php include_once ("odczyt.php") ?>
 <?php include_once ("dane.php") ?>
-<?php $odczytane_wartosci = odczytajDaneZPlytki($dane) ?>
+<?php $odczytane_wartosci = empty($_GET['blad']) ? odczytajDaneZPlytki($dane) : odczytajDaneZGet($_GET) ?>
 <?php 
 $komenda="uart2.exe";
 $result = array(); 
@@ -29,6 +29,11 @@ system($komenda, $result);
     <br>
     <form action="wyslijDoKontrolera.php" method="POST">
         <table width="60%" border="0">
+          <tr><td colspan="3">
+            <?php if (!empty($_GET['blad'])): ?>
+              <strong style="color:red"><?php echo $_GET['blad'] ?></strong>
+            <?php endif ?>
+          </td></tr>
          <tr><td><b>Tryb pracy</b><td colspan="2"><b>Godziny (od do)</b><td><b>Zakres temperatur</b></td></tr>
          <?php foreach ($pory_dnia as $kluczPora => $pora): ?>
          <tr>
